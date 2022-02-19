@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<script>
+		var parcelRequire;
+	</script>
+    <title>My Zoom App</title>
+  </head>
+  <body>
+    <div id="app">
+		<div class="videos-section">
+			<video autoplay id="guest-video-display"></video>
+			<video autoplay id="user-video-display"></video>
+		</div>
+		<div class="controls">
+			<button id="connect-camera-button">Connect Camera</button>
+			<button id="share-screen-button">Share Screen</button>
+		</div>
+	</div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
