@@ -18,12 +18,14 @@ window.onload = () => {
     "guest-video-display"
   ) as HTMLVideoElement;
   const myPeerIdDisplay = document.getElementById("my-peer-id") as HTMLParagraphElement;
+  const guestPeerIdDisplay = document.getElementById("guest-peer-id") as HTMLParagraphElement;
   const callPeerIdInput = document.getElementById("call-peer-id") as HTMLInputElement;
   const callPeerButton = document.getElementById("call-peer-button");
 
   let activestream: MediaStream;
 
   const peer = new Peer();
+  let activePeer: string;
 
   peer.on('open', peerId => {
 	myPeerIdDisplay.innerText = `my peer ID: ${peerId}`
@@ -43,18 +45,14 @@ window.onload = () => {
   })
 
   peer.on('call', call => {
-	  const isAnswered = confirm('Incoming call');
-	console.group('isAns', isAnswered)
-	  if (isAnswered) {
 		  call.answer();
 		  call.on('stream', (stream) => {
 			  console.log('stream!l')
 			  guestVideoDisplay.srcObject = stream;
 		  })
+		  activePeer = call.peer;
+		  guestPeerIdDisplay.textContent = `Guest ID is: ${call.peer}`
 		  return ;
-	  }
-
-	  call.close();
 	  
   })
 
@@ -64,6 +62,10 @@ window.onload = () => {
       video: true,
     });
     setUserStream(userMediaSession);
+
+	if (activePeer) {
+		peer.call(activePeer, userMediaSession);
+	}
   });
 
   shareScreenButton.addEventListener("click", async () => {
@@ -72,6 +74,10 @@ window.onload = () => {
       video: true,
     });
 	setUserStream(userMediaSession);
+	
+	if (activePeer) {
+		peer.call(activePeer, userMediaSession);
+	}
   });
 
   const setUserStream = (stream: MediaStream) => {
