@@ -1,10 +1,6 @@
 import "./style.scss";
-import Peer from "peerjs";
 
 window.onload = () => {
-  const peerIdInput = document.getElementById(
-    "peer-id-input"
-  ) as HTMLInputElement;
   const shareScreenButton = document.getElementById(
     "share-screen-button"
   ) as HTMLButtonElement;
@@ -21,7 +17,8 @@ window.onload = () => {
   const myPeerIdDisplay = document.getElementById("my-peer-id");
 
   connectCamera.addEventListener("click", async () => {
-    alert("Connect camera");
+    const userMediaSession = await navigator.mediaDevices.getUserMedia({audio: true, video: true});
+	userVideoDisplay.srcObject = userMediaSession;
   });
 
   shareScreenButton.addEventListener("click", async () => {
